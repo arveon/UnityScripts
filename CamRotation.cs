@@ -21,11 +21,10 @@ public class CamRotation : MonoBehaviour {
 	{
 		Vector2 mouse_delta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
 		mouse_delta *= sensitivity;
-
 		mouseLook += mouse_delta;
+
 
 		transform.localRotation = Quaternion.AngleAxis(-mouseLook.y, Vector3.right);
 		character.transform.localRotation = Quaternion.AngleAxis(mouseLook.x, character.transform.up);
-
 	}
 }
