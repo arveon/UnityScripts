@@ -4,6 +4,8 @@ using System.Collections;
 public class GestureManager : MonoBehaviour {
 
 	GameObject currentTarget;
+	bool mouseDown;
+	//bool distanceSet;
 
 	// Use this for initialization
 	void Start () {
@@ -25,17 +27,31 @@ public class GestureManager : MonoBehaviour {
 		RaycastHit hitInfo;
 		if (Physics.Raycast(headPosition, headRotation, out hitInfo))
 		{
-			if (hitInfo.collider.gameObject.name != "Cursor")
-			{
-				currentTarget = hitInfo.collider.gameObject;
-			}
-			currentTarget.GetComponent<MeshRenderer>().material.SetColor("_Color", Color.yellow);
+			currentTarget = hitInfo.collider.gameObject;
+			hitInfo.collider.gameObject.SendMessageUpwards("Target", hitInfo.distance);
 		}
 		else
 		{
-			if(currentTarget != null)
-				currentTarget.GetComponent<MeshRenderer>().material.SetColor("_Color",  Color.red);
+			if (currentTarget != null)
+				currentTarget.gameObject.SendMessageUpwards("Dehighlight");
 			currentTarget = null;
+		}
+
+		if(currentTarget != null)
+		{
+			if (Input.GetMouseButtonDown(0) && !mouseDown)
+			{
+				currentTarget.SendMessageUpwards("Select");
+				mouseDown = true;
+			}
+			else if (Input.GetMouseButtonUp(0))
+			{
+				currentTarget.SendMessageUpwards("Dehighlight");
+				mouseDown = false;
+			}
+
+
+
 		}
 
 		////do gesture recognizer magic

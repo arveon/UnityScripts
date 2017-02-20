@@ -26,7 +26,7 @@ public class CursorScript : MonoBehaviour {
 				meshRenderer.enabled = true;
 				transform.position = hitInfo.point;
 				transform.rotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
-				Debug.Log("hits");
+				//Debug.Log("hits");
 			}
 		}
 		else
